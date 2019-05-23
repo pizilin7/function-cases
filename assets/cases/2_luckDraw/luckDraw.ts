@@ -1,13 +1,14 @@
 // 图片资源使用 https://github.com/chenxianqi/XCX-Luckdraw
+// 在UI编辑器上旋转转盘，配取数据
 const LuckConfig = {
-	0: {name: '第一等奖', reward: '100元优惠劵'},
-	1: {name: '第二等奖', reward: '优惠劵礼包'},
-	2: {name: '第二等奖', reward: '优惠劵礼包'},
-	3: {name: '第二等奖', reward: '优惠劵礼包'},
-	4: {name: '第二等奖', reward: '优惠劵礼包'},
+	7: {name: '第二等奖', reward: '优惠劵礼包'},
+	6: {name: '第二等奖', reward: '优惠劵礼包'},
 	5: {name: '第二等奖', reward: '优惠劵礼包'},
-	6: {name: '第三等奖', reward: '5元红包'},
-	7: {name: '第四等奖', reward: '1元红包'}
+	4: {name: '第二等奖', reward: '优惠劵礼包'},
+	3: {name: '第二等奖', reward: '优惠劵礼包'},
+	2: {name: '第三等奖', reward: '5元红包'},
+	1: {name: '第四等奖', reward: '1元红包'},
+	0: {name: '第一等奖', reward: '100元优惠劵'}
 };
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -38,9 +39,9 @@ export default class LuckDraw extends cc.Component {
 	// /////////////////////////
 	protected onLoad() {
 		this.singleAngle = 360 / this.luckdrawItemCount;
-		this.offsetAngle = 3;
+		this.offsetAngle = 5;
 		this.isCanClick = true;
-		this.runTime = 15;
+		this.runTime = 6;
 	}
 	// ///////////////////////////
 	// ///事件
@@ -51,7 +52,7 @@ export default class LuckDraw extends cc.Component {
 			this.labReward.string = '';
 			// 0~7内的随机数
 			let luckid = Math.floor(Math.random() * this.luckdrawItemCount);
-			// let luckid = 7;
+			// let luckid = 1;
 			this.runLuckdrawAction(luckid);
 		}
 	}
@@ -62,13 +63,15 @@ export default class LuckDraw extends cc.Component {
 		let angleMin = luckid * this.singleAngle;
 		let roundCountMin = 5;  // 转动最小圈数
 		let roundCountMax = 9;  // 转动最大圈数
-		let confine = (this.singleAngle - this.offsetAngle) / 2 - Math.floor(Math.random() * (this.singleAngle / 2 - this.offsetAngle / 2 + 1) + this.offsetAngle / 2);
+		let confine = Math.floor(Math.random() * (this.singleAngle - this.offsetAngle * 2) + this.offsetAngle);
 		let roundCount = Math.floor(Math.random() * (roundCountMax - roundCountMin + 1) + roundCountMin);
 		let angleTotal = 360 * roundCount + angleMin + confine;
+
+		this.nodeLuckdraw.rotation = 0;
 		this.nodeLuckdraw.runAction(
 			cc.sequence(
-				// 逆时钟旋转
-				cc.rotateBy(15, -angleTotal).easing(cc.easeExponentialOut()),
+				// 顺时钟旋转
+				cc.rotateBy(15, angleTotal).easing(cc.easeExponentialOut()),
 				cc.callFunc(() => {
 					this.isCanClick = true;
 					let value = LuckConfig[luckid];
