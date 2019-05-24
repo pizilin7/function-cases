@@ -2,7 +2,7 @@
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-class M extends cc.Component {
+export default class NetworkActivityIndicator extends cc.Component {
 
 	// ///////////////////////////
 	// ///属性检查器
@@ -12,33 +12,18 @@ class M extends cc.Component {
 	// ///////////////////////////
 	// ///成员变量
 	// /////////////////////////
-	public static instance: M = new M();
 	private opacity = [255, 229, 204, 178, 153, 127, 102, 76];
 	private scale = [1, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3];
 	private index = 0;
 	private dotMax = 8;
 	private timeOut = null;
+	private static instance: NetworkActivityIndicator;
 	// ///////////////////////////
 	// ///cc.class 生命周期函数
 	// /////////////////////////
-	protected constructor() {
-		super();
-		if (cc.loader.loadRes) {
-			let path = 'prefab/3_networkActivityIndicator/prefab_networkActivityIndicator';
-			cc.loader.loadRes(path, cc.Prefab, (error, resource) => {
-				if (error) {
-					console.log('3_networkActivityIndicator.ts', error);
-					return;
-				}
-				let node = cc.instantiate(resource);
-				cc.director.getScene().getChildByName('Canvas').addChild(node);
-			})
-		}
-	}
 
 	protected onLoad() {
 		cc.game.addPersistRootNode(this.node);
-		this.node.active = false;
 	}
 
 	protected onDestroy() {
@@ -52,6 +37,23 @@ class M extends cc.Component {
 	// ///////////////////////////
 	// ///业务逻辑(control层)
 	// /////////////////////////
+	public static getInstance() {
+		return new Promise()
+		if (!this.instance) {
+			let path = 'prefab/networkActivityIndicator/prefab_networkActivityIndicator';
+			cc.loader.loadRes(path, cc.Prefab, (error, resource) => {
+				if (error) {
+					console.log('3_networkActivityIndicator.ts', error);
+					return;
+				}
+				let node = cc.instantiate(resource);
+				cc.director.getScene().getChildByName('Canvas').addChild(node);
+				this.instance = node.getComponent(NetworkActivityIndicator);
+			});
+		}
+		return this.instance;
+	}
+
 	public show() {
 		this.node.active = true;
 		this.init();
@@ -102,4 +104,4 @@ class M extends cc.Component {
 	// /////////////////////////
 }
 
-export const NetworkActivityIndicator = M.instance;
+// export const NetworkActivityIndicator = M.getInstance();

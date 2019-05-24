@@ -1,4 +1,4 @@
-import {NetworkActivityIndicator} from "../../resources/prefab/3_networkActivityIndicator/networkActivityIndicator";
+import NetworkActivityIndicator from '../../resources/prefab/networkActivityIndicator/networkActivityIndicator';
 
 
 const { ccclass, property } = cc._decorator;
@@ -22,9 +22,9 @@ export default class Main extends cc.Component {
 	// ///事件
 	// /////////////////////////
 	private onClickShowBtnEvent(event: cc.Event) {
-		NetworkActivityIndicator.show();
+		NetworkActivityIndicator.getInstance().show();
 		this.scheduleOnce(() => {
-			NetworkActivityIndicator.hide();
+			NetworkActivityIndicator.getInstance().hide();
 		}, 2);
 	}
 	// ///////////////////////////
