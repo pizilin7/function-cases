@@ -1,4 +1,3 @@
-// 图片资源使用 https://github.com/chenxianqi/XCX-Luckdraw
 // 在UI编辑器上旋转转盘，配取数据
 const LuckConfig = {
 	7: {name: '第二等奖', reward: '优惠劵礼包'},
@@ -71,6 +70,7 @@ export default class LuckDraw extends cc.Component {
 		this.nodeLuckdraw.runAction(
 			cc.sequence(
 				// 顺时钟旋转
+				// TODO: 快停下的时候会突然跳一下，应该cc.easeExponentialOut()二次函数的问题
 				cc.rotateBy(15, angleTotal).easing(cc.easeExponentialOut()),
 				cc.callFunc(() => {
 					this.isCanClick = true;
