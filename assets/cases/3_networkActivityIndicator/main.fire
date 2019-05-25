@@ -41,8 +41,8 @@
     },
     "_scale": {
       "__type__": "cc.Vec3",
-      "x": 0.6185487948092577,
-      "y": 0.6185487948092577,
+      "x": 0.722379594609281,
+      "y": 0.722379594609281,
       "z": 1
     },
     "_quat": {
@@ -607,7 +607,7 @@
     },
     "component": "",
     "_componentId": "79271hMR1BE/oMPgE6vHASG",
-    "handler": "onClickShowBtnEvent",
+    "handler": "onClick",
     "customEventData": ""
   },
   {
@@ -635,6 +635,9 @@
       "__id__": 2
     },
     "_enabled": true,
+    "prefab_networkActivity": {
+      "__uuid__": "b5cf45a8-f5f5-4cfb-a4b3-b19d2bd9b0f2"
+    },
     "_id": "6fL4ELcdpEVYVklVKLqrFV"
   }
 ]

@@ -17,13 +17,13 @@ export default class NetworkActivityIndicator extends cc.Component {
 	private index = 0;
 	private dotMax = 8;
 	private timeOut = null;
-	private static instance: NetworkActivityIndicator;
+
 	// ///////////////////////////
 	// ///cc.class 生命周期函数
 	// /////////////////////////
-
 	protected onLoad() {
 		cc.game.addPersistRootNode(this.node);
+		this.node.active = false;
 	}
 
 	protected onDestroy() {
@@ -37,22 +37,6 @@ export default class NetworkActivityIndicator extends cc.Component {
 	// ///////////////////////////
 	// ///业务逻辑(control层)
 	// /////////////////////////
-	public static getInstance() {
-		return new Promise()
-		if (!this.instance) {
-			let path = 'prefab/networkActivityIndicator/prefab_networkActivityIndicator';
-			cc.loader.loadRes(path, cc.Prefab, (error, resource) => {
-				if (error) {
-					console.log('3_networkActivityIndicator.ts', error);
-					return;
-				}
-				let node = cc.instantiate(resource);
-				cc.director.getScene().getChildByName('Canvas').addChild(node);
-				this.instance = node.getComponent(NetworkActivityIndicator);
-			});
-		}
-		return this.instance;
-	}
 
 	public show() {
 		this.node.active = true;
@@ -61,8 +45,8 @@ export default class NetworkActivityIndicator extends cc.Component {
 	}
 
 	public hide() {
-		this.node.active = false;
 		this.clearTimeOut();
+		this.node.active = false;
 	}
 
 	private init() {
@@ -78,7 +62,7 @@ export default class NetworkActivityIndicator extends cc.Component {
 
 	private runAction() {
 		let time = 100;
-		this.timeOut = setTimeout(() => {
+		this.timeOut = setInterval(() => {
 			for (let index = 0; index < this.dotMax; index ++) {
 				let node = this.nodeIndiatorS[index];
 				let i = (this.index + index) % this.dotMax;
@@ -96,12 +80,11 @@ export default class NetworkActivityIndicator extends cc.Component {
 
 	private clearTimeOut() {
 		if (this.timeOut) {
-			this.timeOut.clearTimeout();
+			clearInterval(this.timeOut);
+			this.timeOut = null;
 		}
 	}
 	// ///////////////////////////
 	// ///view层
 	// /////////////////////////
 }
-
-// export const NetworkActivityIndicator = M.getInstance();
