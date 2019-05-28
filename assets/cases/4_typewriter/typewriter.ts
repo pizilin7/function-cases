@@ -40,6 +40,8 @@ export default class Typewriter extends cc.Component {
 
 		let timeOut = setInterval( ()=> {
 			if (index >= length) {
+				// 去除横杆
+				this.label.string = str;
 				clearInterval(timeOut);
 				return;
 			}
